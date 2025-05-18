@@ -1,7 +1,8 @@
 # Fedora-Jrs
 
-سكربت مخصص لضبط إعدادات نظام Fedora بعد التثبيت مباشرة. يحتوي على أدوات مساعدة، تحسينات، وتنظيف النظام، ويتم تنفيذ جميع المهام بشكل تفاعلي ومنظم.
+    سكربت بعد تثبيت Fedora يقوم بتجهيز النظام تلقائيًا: تثبيت الحزم الأساسية، تحسين الأداء، تفعيل المستودعات، وتنظيف النظام.
 
+    Post-install script for Fedora that automates system setup: installs essential packages, optimizes performance, enables repositories, and removes bloat.
 ---
 
 ## الملفات
