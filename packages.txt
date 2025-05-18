@@ -1,0 +1,6 @@
+bleachbit
+gparted
+timeshift
+bash-completion
+libreoffice
+okular
