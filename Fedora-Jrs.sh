@@ -53,17 +53,42 @@ echo -e "\033[1;32m[✓] تم التنفيذ بنجاح\033[0m"
 
 echo -e "\033[1;32m[✓] تم التنفيذ بنجاح\033[0m"
 
-  https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-  https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+  https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+  https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 echo ">> إعداد قائمة الحزم الثابتة"
 basic_packages="git curl htop unzip wget chromium vlc"
 
+for pkg in $basic_packages; do
+  if ! rpm -q $pkg &>/dev/null; then
+    echo ">> تثبيت $pkg..."
+    dnf install -y $pkg
+  else
+    echo ">> $pkg مثبت مسبقاً، يتم تخطيه"
+  fi
+done
+
 echo ">> تحميل قائمة الحزم المتغيرة من GitHub..."
-GITHUB_USER="YOUR_USERNAME"
+GITHUB_USER="Jrs-linx"
 GITHUB_REPO="Fedora-Jrs"
 GITHUB_BRANCH="main"
 curl -s https://raw.githubusercontent.com/$GITHUB_USER/$GITHUB_REPO/$GITHUB_BRANCH/packages.txt -o /tmp/packages.txt
+
+echo ">> تثبيت الحزم المتغيرة من packages.txt ..."
+if [ -f /tmp/packages.txt ]; then
+  while IFS= read -r pkg; do
+    if [ -n "$pkg" ]; then
+      if ! rpm -q $pkg &>/dev/null; then
+        echo ">> تثبيت $pkg..."
+        dnf install -y $pkg
+      else
+        echo ">> $pkg مثبت مسبقاً، يتم تخطيه"
+      fi
+    fi
+  done < /tmp/packages.txt
+else
+  echo "لم يتم العثور على ملف packages.txt"
+fi
 
 if [ -s /tmp/packages.txt ]; then
   extra_packages=$(cat /tmp/packages.txt)
